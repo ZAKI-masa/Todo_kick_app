@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'accounts.apps.AccountsConfig',
     'kickboxing_app.apps.KickboxingAppConfig',
     'django.contrib.admin',
     'django.contrib.auth',

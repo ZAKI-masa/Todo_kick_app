@@ -6,6 +6,9 @@ from    django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.views import View
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+
 # Create your views here.
 
 
@@ -25,13 +28,13 @@ class DetailPlanView(generic.DetailView):
     template_name='kickboxing_app/ActionPlan_detail.html'
 
 
-class CreatePlanView(generic.CreateView):
+class CreatePlanView(LoginRequiredMixin,generic.CreateView):
     model=ActionPlan
     template_name='kickboxing_app/ActionPlan_form.html'
     fields=['title','target_data','is_done','author','reason']
 
 
-class UpdatePlanView(generic.UpdateView):
+class UpdatePlanView(LoginRequiredMixin,generic.UpdateView):
     model=ActionPlan
     template_name='kickboxing_app/ActionPlan_form.html'
     fields=['title','target_data','is_done','author','reason']
@@ -44,7 +47,7 @@ class UpdatePlanView(generic.UpdateView):
             return redirect('kickboxing_app:plan_done_confirm',pk=self.object.pk)
         return response
     
-class DeletePlanConfirmView(generic.DeleteView):
+class DeletePlanConfirmView(LoginRequiredMixin,generic.DeleteView):
     model=ActionPlan
     template_name='kickboxing_app/ActionPlan_delete_confirm.html'
     success_url=reverse_lazy('kickboxing_app:plan_index')
