@@ -1,4 +1,11 @@
 {% extends 'layout.html' %}
 {% block content %}
-<h2 class="logged-out-message">ログアウトしました。</h2>
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="alert alert-info text-center">ログアウトしました。</div>
+    <div class="text-center">
+      <a href="{% url 'login' %}" class="btn btn-outline-light">ログインページへ</a>
+    </div>
+  </div>
+</div>
 {% endblock %}
