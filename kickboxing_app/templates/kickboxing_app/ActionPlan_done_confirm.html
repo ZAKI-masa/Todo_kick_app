@@ -1,0 +1,354 @@
+
+{% extends './base.html' %}
+{% block content %}
+<style>
+    .confirmation-container {
+        max-width: 600px;
+        margin: 80px auto;
+        padding: 20px;
+        position: relative;
+    }
+    
+    .confetti {
+        position: fixed;
+        width: 10px;
+        height: 10px;
+        background: #f0f0f0;
+        position: absolute;
+        animation: confetti-fall 3s ease-out forwards;
+        z-index: 1000;
+    }
+    
+    @keyframes confetti-fall {
+        to {
+            transform: translateY(100vh) rotate(360deg);
+            opacity: 0;
+        }
+    }
+    
+    .confirmation-card {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.02) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 16px;
+        padding: 50px 40px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .celebration-glow {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(circle, rgba(76, 175, 80, 0.3) 0%, transparent 70%);
+        transform: translate(-50%, -50%);
+        animation: glow-pulse 2s ease-in-out infinite;
+        pointer-events: none;
+    }
+    
+    @keyframes glow-pulse {
+        0%, 100% {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 0.5;
+        }
+        50% {
+            transform: translate(-50%, -50%) scale(1.5);
+            opacity: 0.2;
+        }
+    }
+    
+    .success-icon {
+        width: 100px;
+        height: 100px;
+        margin: 0 auto 30px;
+        background: linear-gradient(135deg, rgba(76, 175, 80, 0.3) 0%, rgba(76, 175, 80, 0.15) 100%);
+        border: 3px solid rgba(76, 175, 80, 0.5);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+        position: relative;
+        animation: successBounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        box-shadow: 0 0 30px rgba(76, 175, 80, 0.3);
+    }
+    
+    @keyframes successBounce {
+        0% {
+            transform: scale(0) rotate(-180deg);
+            opacity: 0;
+        }
+        50% {
+            transform: scale(1.2) rotate(10deg);
+        }
+        100% {
+            transform: scale(1) rotate(0deg);
+            opacity: 1;
+        }
+    }
+    
+    .sparkle {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: #fff;
+        border-radius: 50%;
+        animation: sparkle 1.5s ease-out infinite;
+    }
+    
+    .sparkle:nth-child(1) { top: 10%; left: 20%; animation-delay: 0s; }
+    .sparkle:nth-child(2) { top: 20%; right: 15%; animation-delay: 0.3s; }
+    .sparkle:nth-child(3) { bottom: 15%; left: 25%; animation-delay: 0.6s; }
+    .sparkle:nth-child(4) { bottom: 20%; right: 20%; animation-delay: 0.9s; }
+    
+    @keyframes sparkle {
+        0%, 100% {
+            transform: scale(0);
+            opacity: 0;
+        }
+        50% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+    
+    .achievement-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+        color: #000;
+        padding: 8px 20px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-bottom: 25px;
+        animation: badgeSlide 0.8s ease-out 0.3s backwards;
+        box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+    }
+    
+    @keyframes badgeSlide {
+        from {
+            transform: translateY(-30px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+    
+    .task-title {
+        font-size: 1.6rem;
+        font-weight: 400;
+        color: #ffffff;
+        margin-bottom: 20px;
+        letter-spacing: 0.5px;
+        animation: fadeInUp 0.6s ease-out 0.4s backwards;
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            transform: translateY(20px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+    
+    .confirmation-message {
+        font-size: 1.1rem;
+        color: #b0b0b0;
+        margin-bottom: 50px;
+        line-height: 1.6;
+        animation: fadeInUp 0.6s ease-out 0.5s backwards;
+    }
+    
+    .motivational-text {
+        font-size: 1rem;
+        color: #4caf50;
+        margin-bottom: 35px;
+        font-weight: 500;
+        animation: fadeInUp 0.6s ease-out 0.6s backwards;
+    }
+    
+    .button-container {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        flex-wrap: wrap;
+        animation: fadeInUp 0.6s ease-out 0.7s backwards;
+    }
+    
+    .btn-keep {
+        background: linear-gradient(135deg, rgba(76, 175, 80, 0.2) 0%, rgba(76, 175, 80, 0.15) 100%);
+        color: #4caf50;
+        border: 2px solid rgba(76, 175, 80, 0.5);
+        padding: 14px 35px;
+        border-radius: 8px;
+        font-weight: 500;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .btn-keep::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(76, 175, 80, 0.3);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+    }
+    
+    .btn-keep:hover::before {
+        width: 300px;
+        height: 300px;
+    }
+    
+    .btn-keep:hover {
+        background: linear-gradient(135deg, rgba(76, 175, 80, 0.3) 0%, rgba(76, 175, 80, 0.2) 100%);
+        border-color: rgba(76, 175, 80, 0.7);
+        color: #66bb6a;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+    }
+    
+    .btn-keep span {
+        position: relative;
+        z-index: 1;
+    }
+    
+    .btn-delete {
+        background-color: rgba(244, 67, 54, 0.15);
+        color: #f44336;
+        border: 2px solid rgba(244, 67, 54, 0.4);
+        padding: 14px 35px;
+        border-radius: 8px;
+        font-weight: 500;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+    }
+    
+    .btn-delete:hover {
+        background-color: rgba(244, 67, 54, 0.25);
+        border-color: rgba(244, 67, 54, 0.6);
+        color: #ef5350;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3);
+    }
+    
+    .btn-cancel {
+        color: #888888;
+        padding: 14px 28px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        font-size: 0.95rem;
+        display: inline-block;
+    }
+    
+    .btn-cancel:hover {
+        color: #ffffff;
+        border-color: rgba(255, 255, 255, 0.5);
+        background-color: rgba(255, 255, 255, 0.08);
+    }
+    
+    @media (max-width: 768px) {
+        .confirmation-card {
+            padding: 40px 25px;
+        }
+        
+        .button-container {
+            flex-direction: column;
+        }
+        
+        .btn-keep,
+        .btn-delete,
+        .btn-cancel {
+            width: 100%;
+            text-align: center;
+        }
+    }
+</style>
+
+<div class="confirmation-container">
+    <div class="confirmation-card">
+        <div class="celebration-glow"></div>
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+        
+        <div class="success-icon">✓</div>
+        
+        <div class="achievement-badge">🎉 タスク完了！</div>
+        
+        <h1 class="task-title">{{ object.title }}</h1>
+        
+        <p class="motivational-text">
+            素晴らしい！また一歩前進しました 💪
+        </p>
+        
+        <p class="confirmation-message">
+            このアクションプランを完了済みにしますか？完了にすると、プランは一覧から非表示になりますが、後で再度表示することも可能です。
+        </p>
+        
+        <form method="post">
+            {% csrf_token %}
+            <div class="button-container">
+                <button type="submit" name="decision" value="delete" class="btn-keep">
+                    <span>✨ 完了</span>
+                </button>
+                
+                <button type="submit" name="decision" value="keep" class="btn-delete">
+                    残す
+                </button>
+            </div>
+            
+            <div style="margin-top: 25px;">
+                <a href="{% url 'kickboxing_app:plan_detail' object.pk %}" class="btn-cancel">
+                    キャンセル
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+// 紙吹雪エフェクト
+function createConfetti() {
+    const colors = ['#4caf50', '#66bb6a', '#81c784', '#ffd700', '#ffed4e', '#ffffff'];
+    const confettiCount = 50;
+    
+    for (let i = 0; i < confettiCount; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + '%';
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.animationDelay = Math.random() * 0.5 + 's';
+        confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+        document.querySelector('.confirmation-container').appendChild(confetti);
+        
+        setTimeout(() => confetti.remove(), 3000);
+    }
+}
+
+// ページ読み込み時に紙吹雪を発生
+window.addEventListener('load', createConfetti);
+</script>
+{% endblock %}

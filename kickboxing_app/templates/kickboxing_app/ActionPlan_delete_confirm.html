@@ -1,0 +1,12 @@
+{% extends './base.html' %}
+{% block content %}
+<h1>{{object.title}}の削除をしますか？</h1>
+<!-- プランを具体的に　デッドラインを設ける　達成後のポジティブな変化　 -->
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">削除</button>
+    <a href="{% url 'kickboxing_app:plan_detail' object.pk %}" class="btn btn-secondary">キャンセル</a>
+</form>
+
+
+{% endblock %}

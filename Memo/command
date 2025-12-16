@@ -1,0 +1,5 @@
+django-admin startproject myapp .
+python3 manage.py startapp kickboxing_app
+python3 manage.py makemigrations kickboxing_app
+python3 manage.py makemigrations
+python3 manage.py migrate

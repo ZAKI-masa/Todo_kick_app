@@ -1,0 +1,5 @@
+1  djangoのデフォルトユーザーモデルとカスタムユーザーモデルについて対応できるモデルの書き方　と　外部キーを認証機能を使うときに記述する理由
+BooleanフィールドとDateフィールドの意味　
+
+ models.pyからクラスをインポートしてregister(クラス)で登録
+ python3 manage.py createsuperuserをコマンド入力すればどうなる？

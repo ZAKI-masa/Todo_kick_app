@@ -1,0 +1,10 @@
+{% extends './base.html' %}
+{% block content %}
+<h1>{{object.title}}</h1>
+<!-- プランを具体的に　デッドラインを設ける　達成後のポジティブな変化　 -->
+<a href="{% url 'kickboxing_app:plan_update' object.pk %}">編集</a><br>
+<a href="{% url 'kickboxing_app:plan_delete' object.pk %}">削除</a>
+<a href="{% url 'kickboxing_app:plan_index' %}">一つ前に戻る</a>
+
+
+{% endblock %}
