@@ -1,10 +1,355 @@
 {% extends './base.html' %}
 {% block content %}
-<h1>{{object.title}}</h1>
-<!-- プランを具体的に　デッドラインを設ける　達成後のポジティブな変化　 -->
-<a href="{% url 'kickboxing_app:plan_update' object.pk %}">編集</a><br>
-<a href="{% url 'kickboxing_app:plan_delete' object.pk %}">削除</a>
-<a href="{% url 'kickboxing_app:plan_index' %}">一つ前に戻る</a>
+<style>
+    .detail-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 40px 20px;
+    }
+    
+    .detail-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 40px;
+        padding-bottom: 30px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        gap: 20px;
+    }
+    
+    .title-section {
+        flex-grow: 1;
+    }
+    
+    .plan-title {
+        font-size: 2.2rem;
+        font-weight: 400;
+        color: #ffffff;
+        margin: 0 0 15px 0;
+        letter-spacing: 0.5px;
+        line-height: 1.3;
+    }
+    
+    .author-info {
+        font-size: 0.9rem;
+        color: #888888;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .action-buttons {
+        display: flex;
+        gap: 12px;
+        flex-shrink: 0;
+    }
+    
+    .btn-edit {
+        background-color: rgba(33, 150, 243, 0.15);
+        color: #42a5f5;
+        border: 2px solid rgba(33, 150, 243, 0.4);
+        padding: 10px 24px;
+        border-radius: 8px;
+        font-weight: 500;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .btn-edit:hover {
+        background-color: rgba(33, 150, 243, 0.25);
+        border-color: rgba(33, 150, 243, 0.6);
+        color: #64b5f6;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+    }
+    
+    .btn-delete {
+        background-color: rgba(244, 67, 54, 0.15);
+        color: #f44336;
+        border: 2px solid rgba(244, 67, 54, 0.4);
+        padding: 10px 24px;
+        border-radius: 8px;
+        font-weight: 500;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .btn-delete:hover {
+        background-color: rgba(244, 67, 54, 0.25);
+        border-color: rgba(244, 67, 54, 0.6);
+        color: #ef5350;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3);
+    }
+    
+    .detail-content {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.02) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 12px;
+        padding: 40px;
+        margin-bottom: 30px;
+    }
+    
+    .info-grid {
+        display: grid;
+        gap: 30px;
+    }
+    
+    .info-item {
+        padding-bottom: 25px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    
+    .info-item:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+    
+    .info-label {
+        font-size: 0.85rem;
+        color: #888888;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 10px;
+        font-weight: 500;
+    }
+    
+    .info-value {
+        font-size: 1.1rem;
+        color: #e0e0e0;
+        line-height: 1.6;
+        white-space: pre-line;
+    }
+    
+    .empty-state {
+        text-align: center;
+        padding: 40px 20px;
+        color: rgba(255, 255, 255, 0.4);
+        font-style: italic;
+    }
+    
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 18px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        margin-top: 8px;
+    }
+    
+    .status-incomplete {
+        background-color: rgba(255, 193, 7, 0.15);
+        color: #ffc107;
+        border: 1px solid rgba(255, 193, 7, 0.3);
+    }
+    
+    .status-complete {
+        background-color: rgba(76, 175, 80, 0.15);
+        color: #4caf50;
+        border: 1px solid rgba(76, 175, 80, 0.3);
+    }
+    
+    .date-display {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background-color: rgba(255, 255, 255, 0.05);
+        padding: 8px 16px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .metadata {
+        display: flex;
+        gap: 30px;
+        flex-wrap: wrap;
+        padding-top: 25px;
+        margin-top: 25px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    
+    .metadata-item {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .metadata-label {
+        font-size: 0.75rem;
+        color: #777777;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .metadata-value {
+        font-size: 0.9rem;
+        color: #b0b0b0;
+    }
+    
+    .nav-footer {
+        display: flex;
+        justify-content: center;
+        padding-top: 30px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .btn-back {
+        color: #b0b0b0;
+        padding: 12px 30px;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        font-size: 0.95rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .btn-back:hover {
+        color: #ffffff;
+        border-color: rgba(255, 255, 255, 0.5);
+        background-color: rgba(255, 255, 255, 0.08);
+        transform: translateY(-1px);
+    }
+    
+    @media (max-width: 768px) {
+        .detail-header {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        
+        .plan-title {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+        }
+        
+        .action-buttons {
+            width: 100%;
+        }
+        
+        .btn-edit,
+        .btn-delete {
+            flex: 1;
+            justify-content: center;
+        }
+        
+        .detail-content {
+            padding: 30px 20px;
+        }
+        
+        .metadata {
+            gap: 20px;
+        }
+    }
+</style>
 
-
+<div class="detail-container">
+    <div class="detail-header">
+        <div class="title-section">
+            <h1 class="plan-title">{{ object.title }}</h1>
+            <div class="author-info">
+                <span>👤</span>
+                <span>作成者: {{ object.author.username }}</span>
+            </div>
+        </div>
+        
+        <div class="action-buttons">
+            <a href="{% url 'kickboxing_app:plan_update' object.pk %}" class="btn-edit">
+                <span>✏️</span>
+                <span>編集</span>
+            </a>
+            <a href="{% url 'kickboxing_app:plan_delete' object.pk %}" class="btn-delete">
+                <span>🗑️</span>
+                <span>削除</span>
+            </a>
+        </div>
+    </div>
+    
+    <div class="detail-content">
+        <div class="info-grid">
+            <!-- ステータス -->
+            <div class="info-item">
+                <div class="info-label">ステータス</div>
+                <div class="info-value">
+                    {% if object.is_done %}
+                    <span class="status-badge status-complete">
+                        <span>✓</span>
+                        <span>完了</span>
+                    </span>
+                    {% else %}
+                    <span class="status-badge status-incomplete">
+                        <span>⏳</span>
+                        <span>進行中</span>
+                    </span>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- 目標達成日 -->
+            {% if object.target_data %}
+            <div class="info-item">
+                <div class="info-label">目標達成日</div>
+                <div class="info-value">
+                    <span class="date-display">
+                        <span>📅</span>
+                        <span>{{ object.target_data|date:"Y年m月d日" }}</span>
+                    </span>
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- 作成意図・背景 -->
+            {% if object.reason %}
+            <div class="info-item">
+                <div class="info-label">作成意図・背景</div>
+                <div class="info-value">{{ object.reason }}</div>
+            </div>
+            {% endif %}
+            
+            <!-- 詳細情報がない場合 -->
+            {% if not object.reason and not object.target_data %}
+            <div class="empty-state">
+                <p>詳細情報はまだ設定されていません</p>
+                <p style="margin-top: 10px;">
+                    <a href="{% url 'kickboxing_app:plan_update' object.pk %}" style="color: #42a5f5;">
+                        編集して詳細を追加する
+                    </a>
+                </p>
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- メタデータ -->
+        <div class="metadata">
+            <div class="metadata-item">
+                <span class="metadata-label">作成日時</span>
+                <span class="metadata-value">{{ object.created_at|date:"Y/m/d H:i" }}</span>
+            </div>
+            <div class="metadata-item">
+                <span class="metadata-label">最終更新</span>
+                <span class="metadata-value">{{ object.updated_at|date:"Y/m/d H:i" }}</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="nav-footer">
+        <a href="{% url 'kickboxing_app:plan_index' %}" class="btn-back">
+            <span>←</span>
+            <span>一覧に戻る</span>
+        </a>
+    </div>
+</div>
 {% endblock %}

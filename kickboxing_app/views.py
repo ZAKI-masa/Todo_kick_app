@@ -64,6 +64,9 @@ class DoneConfirmView(View):
 
         if decision == "keep":
             # 残す（何もしない）
+            # 残す（完了フラグを元に戻す）
+            plan.is_done = False
+            plan.save(update_fields=["is_done"])
             return redirect("kickboxing_app:plan_detail", pk=plan.pk)
 
         if decision == "delete":
@@ -71,4 +74,5 @@ class DoneConfirmView(View):
             return redirect("kickboxing_app:plan_index")
 
         # 想定外は同じ画面に戻す
+        return redirect("kickboxing_app:plan_done_confirm", pk=plan.pk)
         return redirect("kickboxing_app:plan_done_confirm", pk=plan.pk)

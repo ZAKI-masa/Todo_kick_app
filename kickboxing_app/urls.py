@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path,include
 from . import views
 
 app_name="kickboxing_app"
@@ -11,5 +11,7 @@ urlpatterns=[
     path("plan/<int:pk>/update/",views.UpdatePlanView.as_view(),name="plan_update"),
     path("plans/<int:pk>/done-confirm/", views.DoneConfirmView.as_view(), name="plan_done_confirm"),
     path("plan/<int:pk>/delete/",views.DeletePlanConfirmView.as_view(),name="plan_delete"),
+    
+
 
 ]
