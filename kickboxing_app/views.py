@@ -18,7 +18,7 @@ def index(request):
     return render(request,"kickboxing_app/index.html")
 
 
-class IndexPlanView(generic.ListView):
+class IndexPlanView(LoginRequiredMixin,generic.ListView):
     model=ActionPlan
     template_name='kickboxing_app/index_plan.html'
 
@@ -43,9 +43,9 @@ class UpdatePlanView(LoginRequiredMixin,generic.UpdateView):
         before_done=self.get_object().is_done
         response=super().form_valid(form)
         if (not before_done) and self.object.is_done:
-            # 完了していなかったものが完了になったとき 削除するかの確認ページに移動後　に確定ボタンを押すとプランを削除する
+            # 完了していなかったものが完了になったとき 完了確認ページに移動後　に完了ボタンを押すとプランを削除する
             return redirect('kickboxing_app:plan_done_confirm',pk=self.object.pk)
-        return response
+        return response 
     
 class DeletePlanConfirmView(LoginRequiredMixin,generic.DeleteView):
     model=ActionPlan
@@ -79,3 +79,6 @@ class DoneConfirmView(View):
         # 想定外は同じ画面に戻す
         return redirect("kickboxing_app:plan_done_confirm", pk=plan.pk)
         return redirect("kickboxing_app:plan_done_confirm", pk=plan.pk)
+
+class MypageView(generic.TemplateView):
+    pass

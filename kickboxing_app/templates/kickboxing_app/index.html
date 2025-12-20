@@ -1,484 +1,229 @@
 {% extends './base.html' %}
 {% block content %}
 <style>
-    .article-container {
+    .index-container {
         max-width: 900px;
         margin: 0 auto;
         padding: 40px 20px;
     }
     
     .hero-section {
+        text-align: center;
+        margin-bottom: 60px;
+        padding: 60px 40px;
         background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.03) 100%);
         border: 1px solid rgba(255, 255, 255, 0.15);
         border-radius: 16px;
-        padding: 50px 40px;
-        margin-bottom: 60px;
-    }
-    
-    .badge-group {
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-        margin-bottom: 25px;
-    }
-    
-    .badge {
-        background-color: rgba(255, 255, 255, 0.12);
-        color: #e0e0e0;
-        padding: 6px 16px;
-        border-radius: 20px;
-        font-size: 0.85rem;
-        font-weight: 500;
-        border: 1px solid rgba(255, 255, 255, 0.2);
     }
     
     .hero-title {
-        font-size: 2.2rem;
-        font-weight: 400;
-        line-height: 1.4;
+        font-size: 2.5rem;
+        font-weight: 300;
         color: #ffffff;
-        margin-bottom: 25px;
-        letter-spacing: 0.3px;
+        margin-bottom: 20px;
+        letter-spacing: 2px;
     }
     
-    .hero-lead {
+    .hero-subtitle {
         font-size: 1.1rem;
-        line-height: 1.8;
-        color: #d0d0d0;
-        margin: 0;
+        color: #b0b0b0;
+        line-height: 1.6;
     }
     
-    .hero-lead strong {
-        color: #ffffff;
-        font-weight: 500;
-    }
-    
-    .section {
+    .actions-section {
         margin-bottom: 50px;
     }
     
     .section-title {
-        font-size: 1.6rem;
+        font-size: 1.3rem;
         font-weight: 400;
         color: #ffffff;
         margin-bottom: 20px;
-        padding-bottom: 15px;
-        border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-        letter-spacing: 0.5px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
     
-    .section-text {
-        font-size: 1.05rem;
-        line-height: 1.8;
-        color: #c8c8c8;
-        margin-bottom: 15px;
-    }
-    
-    .section-text strong {
-        color: #ffffff;
-        font-weight: 500;
-    }
-    
-    .card-grid {
+    .action-grid {
         display: grid;
-        gap: 20px;
-        margin-top: 25px;
-    }
-    
-    .card-grid-2 {
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    }
-    
-    .card-grid-3 {
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 15px;
+        margin-bottom: 30px;
     }
     
-    .content-card {
+    .action-card {
         background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        border-radius: 12px;
-        padding: 30px;
-        transition: all 0.3s ease;
-    }
-    
-    .content-card:hover {
-        border-color: rgba(255, 255, 255, 0.3);
-        transform: translateY(-2px);
-        box-shadow: 0 8px 24px rgba(255, 255, 255, 0.08);
-    }
-    
-    .card-title {
-        font-size: 1.2rem;
-        font-weight: 500;
-        color: #ffffff;
-        margin-bottom: 20px;
-    }
-    
-    .card-subtitle {
-        font-size: 1rem;
-        font-weight: 500;
-        color: #e8e8e8;
-        margin-bottom: 10px;
-    }
-    
-    .card-text {
-        font-size: 0.95rem;
-        line-height: 1.7;
-        color: #c0c0c0;
-        margin-bottom: 15px;
-    }
-    
-    .card-text:last-child {
-        margin-bottom: 0;
-    }
-    
-    .card-divider {
-        border: 0;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        margin: 20px 0;
-    }
-    
-    .combo-card {
-        background: rgba(255, 255, 255, 0.04);
         border: 1px solid rgba(255, 255, 255, 0.12);
         border-radius: 10px;
         padding: 20px;
-        height: 100%;
+        text-align: center;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: block;
     }
     
-    .combo-title {
-        font-size: 1rem;
-        font-weight: 500;
-        color: #ffffff;
+    .action-card:hover {
+        border-color: rgba(255, 255, 255, 0.3);
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(255, 255, 255, 0.1);
+    }
+    
+    .action-icon {
+        font-size: 2rem;
         margin-bottom: 12px;
     }
     
-    .combo-moves {
-        font-size: 0.95rem;
-        color: #d8d8d8;
-        margin-bottom: 10px;
-    }
-    
-    .combo-description {
-        font-size: 0.85rem;
-        color: #a8a8a8;
-        line-height: 1.6;
-    }
-    
-    .alert {
-        background-color: rgba(255, 193, 7, 0.1);
-        border: 1px solid rgba(255, 193, 7, 0.3);
-        border-radius: 10px;
-        padding: 18px 24px;
-        margin-top: 25px;
-    }
-    
-    .alert strong {
-        color: #ffc107;
-        font-weight: 600;
-    }
-    
-    .alert-text {
-        color: #d0d0d0;
-        margin: 0;
-        font-size: 0.95rem;
-        line-height: 1.7;
-    }
-    
-    .info-box {
-        background-color: rgba(33, 150, 243, 0.1);
-        border: 1px solid rgba(33, 150, 243, 0.3);
-        border-radius: 10px;
-        padding: 16px 20px;
-        margin-top: 20px;
-    }
-    
-    .info-box strong {
-        color: #42a5f5;
-        font-weight: 600;
-    }
-    
-    .info-text {
-        color: #c8c8c8;
-        margin: 0;
-        font-size: 0.9rem;
-    }
-    
-    .list-styled {
-        padding-left: 25px;
-        margin: 0;
-    }
-    
-    .list-styled li {
-        color: #c0c0c0;
-        margin-bottom: 8px;
-        line-height: 1.6;
-    }
-    
-    .footer-section {
-        padding-top: 30px;
-        border-top: 1px solid rgba(255, 255, 255, 0.15);
-        margin-top: 60px;
-    }
-    
-    .footer-text {
-        font-size: 1rem;
-        line-height: 1.8;
-        color: #c8c8c8;
-        margin-bottom: 15px;
-    }
-    
-    .footer-text strong {
-        color: #ffffff;
+    .action-title {
+        font-size: 1.1rem;
         font-weight: 500;
+        color: #ffffff;
+        margin-bottom: 8px;
+    }
+    
+    .action-description {
+        font-size: 0.85rem;
+        color: #888888;
+    }
+    
+    .auth-section {
+        text-align: center;
+        padding: 40px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+    }
+    
+    .auth-buttons {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .btn-primary {
+        background-color: #42a5f5;
+        color: #ffffff;
+        border: 2px solid #42a5f5;
+        padding: 12px 30px;
+        border-radius: 8px;
+        font-weight: 500;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+    }
+    
+    .btn-primary:hover {
+        background-color: transparent;
+        color: #42a5f5;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+    }
+    
+    .btn-danger {
+        background-color: rgba(244, 67, 54, 0.15);
+        color: #f44336;
+        border: 2px solid rgba(244, 67, 54, 0.4);
+        padding: 12px 30px;
+        border-radius: 8px;
+        font-weight: 500;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+    }
+    
+    .btn-danger:hover {
+        background-color: rgba(244, 67, 54, 0.25);
+        color: #ef5350;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3);
+    }
+    
+    .user-welcome {
+        font-size: 1rem;
+        color: #b0b0b0;
+        margin-bottom: 20px;
+    }
+    
+    .user-welcome strong {
+        color: #ffffff;
     }
     
     @media (max-width: 768px) {
         .hero-section {
-            padding: 35px 25px;
+            padding: 40px 25px;
         }
         
         .hero-title {
-            font-size: 1.6rem;
+            font-size: 1.8rem;
         }
         
-        .hero-lead {
-            font-size: 1rem;
+        .action-grid {
+            grid-template-columns: 1fr;
         }
         
-        .section-title {
-            font-size: 1.3rem;
-        }
-        
-        .content-card {
-            padding: 25px 20px;
+        .auth-buttons {
+            flex-direction: column;
         }
     }
 </style>
 
-<article class="article-container">
-    <!-- Hero -->
-    <header class="hero-section">
-        <a href="{% url 'login' %}"></a>
-        <div class="badge-group">
-            <span class="badge">初心者向け</span>
-            <span class="badge">フォーム重視</span>
-            <span class="badge">体力づくり</span>
+<div class="index-container">
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <h1 class="hero-title">Todo</h1>
+        <p class="hero-subtitle">
+            仮説を立てアクションを持って検証し本質を見抜け！<br>
+        </p>
+    </div>
+    
+    <!-- Quick Actions -->
+    <div class="actions-section">
+        <h2 class="section-title">クイックアクション</h2>
+        <div class="action-grid">
+            <a href="{% url 'kickboxing_app:plan_index' %}" class="action-card">
+                <div class="action-icon">📋</div>
+                <div class="action-title">アクションプラン</div>
+                <div class="action-description">あなたの目標を管理</div>
+            </a>
+            
+            <a href="{% url 'kickboxing_app:plan_create' %}" class="action-card">
+                <div class="action-icon">➕</div>
+                <div class="action-title">新規プラン作成</div>
+                <div class="action-description">新しい目標を設定</div>
+            </a>
         </div>
-
-        <h1 class="hero-title">
-            キックボクシングを始めたいあなたへ。<br>
-            まず覚えるべき「5つの技」と、続けられる体力づくり
-        </h1>
-
-        <p class="hero-lead">
-            「運動したいけど何から？」って人ほど、キックは相性いい。<br>
-            ただし最初に迷うのが<strong>"技の名前は聞いたことあるけど、どう使うの？"問題</strong>。<br>
-            今日は、迷いをゼロにするために<strong>最初に覚えるべき内容だけ</strong>を記事っぽくまとめる。
-        </p>
-    </header>
-
-    <!-- Intro -->
-    <section class="section">
-        <h2 class="section-title">まず前提：上手くなる順番は「力」じゃなく「型」</h2>
-        <p class="section-text">
-            初心者がやりがちなのは、いきなり全力で振り回すこと。気持ちは分かる。分かるけど——
-            全力で振り回すと、だいたいフォームが崩れて「疲れるだけ」で終わる。悲しい。
-        </p>
-        <p class="section-text">
-            だから最初は、<strong>①距離 ②リズム ③体の回転</strong>の3点セットだけ意識してOK。
-            それが整えば、後から勝手に"強そうな人の動き"になる。
-        </p>
-    </section>
-
-    <!-- Basics -->
-    <section class="section">
-        <h2 class="section-title">初心者が最初に覚える「5つの技」</h2>
-
-        <div class="card-grid card-grid-2">
-            <div class="content-card">
-                <h3 class="card-title">パンチ：ジャブ / ストレート / フック</h3>
-
-                <div style="margin-bottom: 20px;">
-                    <h4 class="card-subtitle">ジャブ（前の手）</h4>
-                    <p class="card-text">
-                        役割は「距離を測る」「相手の注意を散らす」「リズムを作る」。
-                        地味だけど一番大事。<br>
-                        例えるなら、ジャブは会話の"相づち"。これがないと会話が急にプロポーズになる。
-                    </p>
-                </div>
-
-                <div style="margin-bottom: 20px;">
-                    <h4 class="card-subtitle">ストレート（後ろの手）</h4>
-                    <p class="card-text">
-                        決定力担当。体重と回転をまっすぐ乗せる。腕力で押すというより、
-                        <strong>腰→肩→拳</strong>の順に伝えるイメージ。
-                    </p>
-                </div>
-
-                <div style="margin-bottom: 20px;">
-                    <h4 class="card-subtitle">フック（横から）</h4>
-                    <p class="card-text">
-                        近距離で強い横パンチ。腕をブン回すより、肘を曲げたまま体の回転で当てる。
-                        「腕のパンチ」じゃなく「体のパンチ」。
-                    </p>
-                </div>
-
-                <hr class="card-divider">
-
-                <p class="card-text" style="color: #d8d8d8;">
-                    <strong style="color: #ffffff;">最初の目標：</strong>
-                    「速さ」より「フォームが崩れない」。
-                    10回の全力より、30回の丁寧が上達を連れてくる。
-                </p>
-            </div>
-
-            <div class="content-card">
-                <h3 class="card-title">キック：ミドル / ロー</h3>
-
-                <div style="margin-bottom: 20px;">
-                    <h4 class="card-subtitle">ミドルキック（胴体）</h4>
-                    <p class="card-text">
-                        見た目が一気に"やってる感"。ポイントは<strong>腰</strong>。
-                        足を上げるんじゃなく、<strong>軸足で床を回して腰で蹴る</strong>。
-                    </p>
-                </div>
-
-                <div style="margin-bottom: 20px;">
-                    <h4 class="card-subtitle">ローキック（太もも）</h4>
-                    <p class="card-text">
-                        地味に効くやつ。相手の足を削って動きを止める。
-                        当てたら<strong>すぐ戻す</strong>。置いてきたらカウンターで泣く。
-                    </p>
-                </div>
-
-                <div class="info-box">
-                    <p class="info-text">
-                        <strong>豆知識：</strong>キックは「足の筋力」より「バランス」と「回転」。
-                        体幹が強い人ほど綺麗に蹴れる。
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Combos -->
-    <section class="section">
-        <h2 class="section-title">明日から使えるコンボ3パターン</h2>
-        <p class="section-text">
-            コンボは「順番を暗記するゲーム」じゃない。<strong>リズム</strong>と<strong>つなぎ</strong>が大事。
-            最初はゆっくりでOK。丁寧に、気持ちよくつなげる。
-        </p>
-
-        <div class="card-grid card-grid-3">
-            <div class="combo-card">
-                <h3 class="combo-title">コンボA：王道の安心感</h3>
-                <p class="combo-moves">ジャブ → ストレート → ミドルキック</p>
-                <p class="combo-description">前に意識を集めて、最後に胴へ。初心者の勝ち筋。</p>
-            </div>
-
-            <div class="combo-card">
-                <h3 class="combo-title">コンボB：近距離で強い</h3>
-                <p class="combo-moves">ジャブ → フック → ローキック</p>
-                <p class="combo-description">近づいて当てて、最後に足を削る。嫌がられるやつ。</p>
-            </div>
-
-            <div class="combo-card">
-                <h3 class="combo-title">コンボC：リズムで崩す</h3>
-                <p class="combo-moves">ジャブ → ジャブ → ストレート → ローキック</p>
-                <p class="combo-description">ジャブ2回で思考を止める。最後に締める。</p>
-            </div>
-        </div>
-
-        <div class="alert">
-            <p class="alert-text">
-                <strong>コツ：</strong>最初は「全部強く」じゃなくて、<strong>ジャブは軽く、最後だけ強く</strong>が上手い。
+    </div>
+    
+    <!-- Auth Section -->
+    <div class="auth-section">
+        {% if user.is_authenticated %}
+            <p class="user-welcome">
+                ようこそ、<strong>{{ user.username }}</strong> さん
             </p>
-        </div>
-    </section>
-
-    <!-- Training -->
-    <section class="section">
-        <h2 class="section-title">体力づくり：ランニング以外の"キック向け"メニュー</h2>
-        <p class="section-text">
-            ランニングは王道。でもキックは「動き続けるスタミナ」も必要。
-            そこで刺さるのが<strong>サーキットトレ</strong>。短時間で心肺も体幹もまとめて鍛えられる。
-        </p>
-
-        <div class="card-grid card-grid-2">
-            <div class="content-card">
-                <h3 class="card-title">ランニング（王道）</h3>
-                <ul class="list-styled">
-                    <li>週2〜3回 / 20〜30分</li>
-                    <li>息が少し上がる程度</li>
-                    <li>続けられる強度が最強</li>
-                </ul>
+            <div class="auth-buttons">
+                <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-danger">
+                        ログアウト
+                    </button>
+                </form>
             </div>
-
-            <div class="content-card">
-                <h3 class="card-title">サーキット（20秒運動 / 10秒休憩 × 8サイクル）</h3>
-                <p class="card-text">
-                    20秒動く→10秒休む、これを合計8回。種目は4つを交互に回す。
-                </p>
-                <ol class="list-styled">
-                    <li>プランク</li>
-                    <li>ハイプランク</li>
-                    <li>ランジ</li>
-                    <li>スクワット</li>
-                </ol>
-            </div>
-        </div>
-
-        <p class="section-text" style="margin-top: 20px;">
-            8サイクル目は、だいたい「自分の意思がCPUから切り離される」。
-            でも終わった後のスッキリ感は異常。これが継続の燃料になる。
-        </p>
-    </section>
-
-    <!-- Benefits -->
-    <section class="section">
-        <h2 class="section-title">キックを続けると、日常が変わる（そしてモテる）</h2>
-        <p class="section-text">
-            体力がつくと、なぜか人生が勝手に前に進む。マジで。
-            仕事/勉強/人間関係、全部に波及する。
-        </p>
-
-        <div class="card-grid card-grid-3">
-            <div class="combo-card">
-                <h3 class="combo-title">① エネルギーが増える</h3>
-                <p class="combo-description">朝が軽い。階段がラク。活動量が増える。</p>
-            </div>
-            <div class="combo-card">
-                <h3 class="combo-title">② 自信がつく</h3>
-                <p class="combo-description">姿勢が変わる。声が出る。顔つきが変わる。</p>
-            </div>
-            <div class="combo-card">
-                <h3 class="combo-title">③ そして…モテる（※個人差あり）</h3>
-                <p class="combo-description">
-                    行動力×清潔感×余裕が出る。結果、印象が上がる。
-                </p>
-            </div>
-        </div>
-
-        <div class="info-box">
-            <p class="info-text">
-                <strong>オチ：</strong>モテるかどうかは保証できない。だが、<strong>自分のことは確実に好きになる</strong>。
-                それが一番デカい。
+        {% else %}
+            <p class="user-welcome">
+                ログインしてアクションプランを管理しましょう
             </p>
-        </div>
-    </section>
-
-    <!-- Outro -->
-    <footer class="footer-section">
-        <p class="footer-text">
-            まとめ：最初は「5つの技」と「コンボ3つ」と「サーキット」だけでOK。<br>
-            やることが絞れると、続けやすくなる。
-        </p>
-        <p class="footer-text">
-            次の記事では、<strong>初心者がやりがちなミス5選</strong>（フォーム/距離/呼吸/ガード/力み）も書ける。
-            欲しいなら言って。
-        </p>
-    </footer>
-</article>
-
+            <div class="auth-buttons">
+                <a href="{% url 'login' %}" class="btn-primary">
+                    ログイン
+                </a>
+                <a href="{% url 'accounts:signup' %}" class="btn-primary">
+                    新規登録
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}
