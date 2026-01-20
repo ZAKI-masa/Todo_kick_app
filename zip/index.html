@@ -1,0 +1,229 @@
+{% extends './base.html' %}
+{% block content %}
+<style>
+    .index-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 40px 20px;
+    }
+    
+    .hero-section {
+        text-align: center;
+        margin-bottom: 60px;
+        padding: 60px 40px;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.03) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 16px;
+    }
+    
+    .hero-title {
+        font-size: 2.5rem;
+        font-weight: 300;
+        color: #ffffff;
+        margin-bottom: 20px;
+        letter-spacing: 2px;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.1rem;
+        color: #b0b0b0;
+        line-height: 1.6;
+    }
+    
+    .actions-section {
+        margin-bottom: 50px;
+    }
+    
+    .section-title {
+        font-size: 1.3rem;
+        font-weight: 400;
+        color: #ffffff;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .action-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 15px;
+        margin-bottom: 30px;
+    }
+    
+    .action-card {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: block;
+    }
+    
+    .action-card:hover {
+        border-color: rgba(255, 255, 255, 0.3);
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(255, 255, 255, 0.1);
+    }
+    
+    .action-icon {
+        font-size: 2rem;
+        margin-bottom: 12px;
+    }
+    
+    .action-title {
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: #ffffff;
+        margin-bottom: 8px;
+    }
+    
+    .action-description {
+        font-size: 0.85rem;
+        color: #888888;
+    }
+    
+    .auth-section {
+        text-align: center;
+        padding: 40px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+    }
+    
+    .auth-buttons {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .btn-primary {
+        background-color: #42a5f5;
+        color: #ffffff;
+        border: 2px solid #42a5f5;
+        padding: 12px 30px;
+        border-radius: 8px;
+        font-weight: 500;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+    }
+    
+    .btn-primary:hover {
+        background-color: transparent;
+        color: #42a5f5;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+    }
+    
+    .btn-danger {
+        background-color: rgba(244, 67, 54, 0.15);
+        color: #f44336;
+        border: 2px solid rgba(244, 67, 54, 0.4);
+        padding: 12px 30px;
+        border-radius: 8px;
+        font-weight: 500;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+    }
+    
+    .btn-danger:hover {
+        background-color: rgba(244, 67, 54, 0.25);
+        color: #ef5350;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3);
+    }
+    
+    .user-welcome {
+        font-size: 1rem;
+        color: #b0b0b0;
+        margin-bottom: 20px;
+    }
+    
+    .user-welcome strong {
+        color: #ffffff;
+    }
+    
+    @media (max-width: 768px) {
+        .hero-section {
+            padding: 40px 25px;
+        }
+        
+        .hero-title {
+            font-size: 1.8rem;
+        }
+        
+        .action-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .auth-buttons {
+            flex-direction: column;
+        }
+    }
+</style>
+
+<div class="index-container">
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <h1 class="hero-title">Todo</h1>
+        <p class="hero-subtitle">
+            仮説を立てアクションを持って検証し本質を見抜け！<br>
+        </p>
+    </div>
+    
+    <!-- Quick Actions -->
+    <div class="actions-section">
+        <h2 class="section-title">クイックアクション</h2>
+        <div class="action-grid">
+            <a href="{% url 'kickboxing_app:plan_index' %}" class="action-card">
+                <div class="action-icon">📋</div>
+                <div class="action-title">アクションプラン</div>
+                <div class="action-description">あなたの目標を管理</div>
+            </a>
+            
+            <a href="{% url 'kickboxing_app:plan_create' %}" class="action-card">
+                <div class="action-icon">➕</div>
+                <div class="action-title">新規プラン作成</div>
+                <div class="action-description">新しい目標を設定</div>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Auth Section -->
+    <div class="auth-section">
+        {% if user.is_authenticated %}
+            <p class="user-welcome">
+                ようこそ、<strong>{{ user.username }}</strong> さん
+            </p>
+            <div class="auth-buttons">
+                <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-danger">
+                        ログアウト
+                    </button>
+                </form>
+            </div>
+        {% else %}
+            <p class="user-welcome">
+                ログインしてアクションプランを管理しましょう
+            </p>
+            <div class="auth-buttons">
+                <a href="{% url 'login' %}" class="btn-primary">
+                    ログイン
+                </a>
+                <a href="{% url 'accounts:signup' %}" class="btn-primary">
+                    新規登録
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

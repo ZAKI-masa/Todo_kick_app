@@ -2,4 +2,37 @@
 
 ブラウザ上にチャット残して得るのでそれを見るのとコード見ろ
 
-12/14
+
+修正後（そのまま提出やノートに使える形）
+
+IndexPlan・DetailPlan・UpdatePlan・DeletePlan では、
+すでにデータベースに保存されている ActionPlan を扱うため、
+ログインユーザーが所有するデータだけを取得対象とする必要がある。
+そのため、get_queryset() をオーバーライドし、
+author=self.request.user で取得範囲を制限している。
+
+一方、新規作成ページ（CreatePlanView）では、
+まだデータベースに存在しないオブジェクトを扱う。
+そのため取得対象を制限することはできず、
+保存直前に呼ばれる form_valid() の段階で、
+作成者（author）をログインユーザーに設定する。
+
+
+12/20
+ログインユーザーごとに表示を切り替える処理を行なっている・
+1 indexplanviewとdetailplanviewにget queryメソッドを作成
+
+2 createplanviewにform_validをオーバーライド。書き換え内容はauthorをログインユーザーに切り替える。
+
+form.instance って何？
+form.instance⇨これからDBに保存される ActionPlan の1インスタンス」、まだ保存されていない、仮のオブジェクト。
+self.request.user
+→ 現在ログインしているユーザー,それを author に代入そのあと保存
+新規作成の裏側では　フォーム表示（GET）ユーザーが入力して送信（POST）⇨form_valid() が呼ばれる　⇨form.save() が実行される　⇨DBに保存される
+この工程からform_valid()がオーバーライドする必要がある理由が読み取れる。
+日本語で完全に言い換えると
+このフォームが正しいなら、
+保存する前に、このデータの作者を
+“今ログインしているユーザー” に設定してから保存してね」
+
+3 
